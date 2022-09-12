@@ -1,8 +1,14 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { DocuwareModule } from './docuware/docuware.module';
+import { DocuwareService } from './docuware/docuware.service';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  await app.listen(3000);
+  const app = await NestFactory.createApplicationContext(DocuwareModule);
+  const docuwareService = app.get(DocuwareService);
+
+  await docuwareService.login();
+  await docuwareService.search();
+  await docuwareService.update();
+  await docuwareService.upload();
 }
 bootstrap();
